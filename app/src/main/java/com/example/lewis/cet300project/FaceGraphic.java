@@ -3,9 +3,13 @@ package com.example.lewis.cet300project;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PointF;
 
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.Landmark;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Lewis on 30/01/2018.
@@ -17,6 +21,7 @@ public class FaceGraphic extends GraphicOverlay.Graphic{
     private static final float ID_Y_OFFSET = 50.0f;
     private static final float ID_X_OFFSET = -50.0f;
     private static final float BOX_STROKE_WIDTH = 5.0f;
+    Map<String,Float> facialPos;
 
     private static final int COLOR_CHOICES[] = {
             Color.BLUE,
@@ -95,10 +100,12 @@ public class FaceGraphic extends GraphicOverlay.Graphic{
                     // use landmark.getPosition() as the left eye position
                     canvas.drawText("Left: " +
                             String.valueOf(landmark.getPosition()), x + ID_X_OFFSET * 2, y + ID_Y_OFFSET * 2, mIdPaint);
+                    //facialPos.put(String.valueOf(landmark.getType()),landmark.getPosition().x);
                     break;
                 case Landmark.RIGHT_EYE:
                     canvas.drawText("Right: " +
                             String.valueOf(landmark.getPosition()), x + ID_X_OFFSET *2, y - ID_Y_OFFSET * 2, mIdPaint);
+                    //facialPos.put(String.valueOf(landmark.getType()),landmark.getPosition().x);
             }
         }
 
