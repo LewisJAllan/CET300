@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
+import android.widget.Toast;
 
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.Landmark;
@@ -21,8 +22,10 @@ public class FaceGraphic extends GraphicOverlay.Graphic{
     private static final float ID_Y_OFFSET = 50.0f;
     private static final float ID_X_OFFSET = -50.0f;
     private static final float BOX_STROKE_WIDTH = 5.0f;
-    List<Float> LHS;
-    List<Float> RHS;
+//    List<Float> LHS;
+//    List<Float> RHS;
+    float LHS;
+    float RHS;
 
     private static final int COLOR_CHOICES[] = {
             Color.BLUE,
@@ -86,6 +89,9 @@ public class FaceGraphic extends GraphicOverlay.Graphic{
             return;
         }
 
+//        float LHS = 0;
+//        float RHS = 0;
+
         // Draws a circle at the position of the detected face, with the face's track id below.
         float x = translateX(face.getPosition().x + face.getWidth() / 2);
         float y = translateY(face.getPosition().y + face.getHeight() / 2);
@@ -101,13 +107,16 @@ public class FaceGraphic extends GraphicOverlay.Graphic{
                     // use landmark.getPosition() as the left eye position
                     canvas.drawText("Left: " +
                             String.valueOf(landmark.getPosition().y), x + ID_X_OFFSET * 2, y + ID_Y_OFFSET * 2, mIdPaint);
-                    //LHS.add(landmark.getPosition().y);
+                    LHS = landmark.getPosition().y;
                     break;
                 case Landmark.RIGHT_EYE:
                     canvas.drawText("Right: " +
                             String.valueOf(landmark.getPosition().y), x + ID_X_OFFSET *2, y - ID_Y_OFFSET * 2, mIdPaint);
-                    //RHS.add(landmark.getPosition().y);
+                    RHS = landmark.getPosition().y;
+                    break;
             }
+            float dif = LHS - RHS;
+            canvas.drawText("Difference of Left to Right asymmetry: " + String.valueOf(dif), x + ID_X_OFFSET * 3, y + ID_Y_OFFSET, mIdPaint);
         }
 
         // Draws a bounding box around the face.
