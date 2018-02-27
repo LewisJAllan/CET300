@@ -24,8 +24,12 @@ public class FaceGraphic extends GraphicOverlay.Graphic{
     private static final float BOX_STROKE_WIDTH = 5.0f;
 //    List<Float> LHS;
 //    List<Float> RHS;
-    float LHS;
-    float RHS;
+    float LHSE;
+    float RHSE;
+    float LHSC;
+    float RHSC;
+    float LHSM;
+    float RHSM;
 
     private static final int COLOR_CHOICES[] = {
             Color.BLUE,
@@ -89,9 +93,6 @@ public class FaceGraphic extends GraphicOverlay.Graphic{
             return;
         }
 
-//        float LHS = 0;
-//        float RHS = 0;
-
         // Draws a circle at the position of the detected face, with the face's track id below.
         float x = translateX(face.getPosition().x + face.getWidth() / 2);
         float y = translateY(face.getPosition().y + face.getHeight() / 2);
@@ -106,17 +107,31 @@ public class FaceGraphic extends GraphicOverlay.Graphic{
                 case Landmark.LEFT_EYE:
                     // use landmark.getPosition() as the left eye position
                     canvas.drawText("Left: " +
-                            String.valueOf(landmark.getPosition().y), x + ID_X_OFFSET * 2, y + ID_Y_OFFSET * 2, mIdPaint);
-                    LHS = landmark.getPosition().y;
+                            String.format("%.2f", landmark.getPosition().y), x + ID_X_OFFSET * 2, y + ID_Y_OFFSET * 2, mIdPaint);
+                    LHSE = landmark.getPosition().y;
                     break;
                 case Landmark.RIGHT_EYE:
                     canvas.drawText("Right: " +
-                            String.valueOf(landmark.getPosition().y), x + ID_X_OFFSET *2, y - ID_Y_OFFSET * 2, mIdPaint);
-                    RHS = landmark.getPosition().y;
+                            String.format("%.2f", landmark.getPosition().y), x + ID_X_OFFSET *2, y - ID_Y_OFFSET * 2, mIdPaint);
+                    RHSE = landmark.getPosition().y;
+                    break;
+                case Landmark.LEFT_CHEEK:
+                    LHSC = landmark.getPosition().y;
+                    break;
+                case Landmark.RIGHT_CHEEK:
+                    RHSC = landmark.getPosition().y;
+                    break;
+                case Landmark.LEFT_MOUTH:
+                    LHSM = landmark.getPosition().y;
+                    break;
+                case Landmark.RIGHT_MOUTH:
+                    RHSM = landmark.getPosition().y;
                     break;
             }
+            float LHS = LHSC + LHSE + LHSM;
+            float RHS = RHSC + RHSE + RHSM;
             float dif = LHS - RHS;
-            canvas.drawText("Difference of Left to Right asymmetry: " + String.valueOf(dif), x + ID_X_OFFSET * 3, y + ID_Y_OFFSET, mIdPaint);
+            canvas.drawText("LHS to RHS asymmetry: " + String.format("%.2f", dif), x + ID_X_OFFSET * 5, y + ID_Y_OFFSET * 7, mIdPaint);
         }
 
         // Draws a bounding box around the face.
