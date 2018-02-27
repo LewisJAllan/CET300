@@ -21,7 +21,8 @@ public class FaceGraphic extends GraphicOverlay.Graphic{
     private static final float ID_Y_OFFSET = 50.0f;
     private static final float ID_X_OFFSET = -50.0f;
     private static final float BOX_STROKE_WIDTH = 5.0f;
-    Map<String,Float> facialPos;
+    List<Float> LHS;
+    List<Float> RHS;
 
     private static final int COLOR_CHOICES[] = {
             Color.BLUE,
@@ -99,13 +100,13 @@ public class FaceGraphic extends GraphicOverlay.Graphic{
                 case Landmark.LEFT_EYE:
                     // use landmark.getPosition() as the left eye position
                     canvas.drawText("Left: " +
-                            String.valueOf(landmark.getPosition()), x + ID_X_OFFSET * 2, y + ID_Y_OFFSET * 2, mIdPaint);
-                    //facialPos.put(String.valueOf(landmark.getType()),landmark.getPosition().x);
+                            String.valueOf(landmark.getPosition().y), x + ID_X_OFFSET * 2, y + ID_Y_OFFSET * 2, mIdPaint);
+                    //LHS.add(landmark.getPosition().y);
                     break;
                 case Landmark.RIGHT_EYE:
                     canvas.drawText("Right: " +
-                            String.valueOf(landmark.getPosition()), x + ID_X_OFFSET *2, y - ID_Y_OFFSET * 2, mIdPaint);
-                    //facialPos.put(String.valueOf(landmark.getType()),landmark.getPosition().x);
+                            String.valueOf(landmark.getPosition().y), x + ID_X_OFFSET *2, y - ID_Y_OFFSET * 2, mIdPaint);
+                    //RHS.add(landmark.getPosition().y);
             }
         }
 
