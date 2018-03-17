@@ -6,13 +6,18 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -51,6 +56,24 @@ public class MainActivity extends AppCompatActivity {
         } else {
             requestCameraPermission();
         }
+    }
+
+    public void Detected(float f){
+        LayoutInflater li = LayoutInflater.from(MainActivity.this);
+        View getDeleteDialog = li.inflate(R.layout.dialog_detected, null);
+        //open delete dialog box
+        android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(MainActivity.this);
+        alertDialogBuilder.setView(getDeleteDialog);
+
+        alertDialogBuilder
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton("Delete", new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog, int id) {
+                        Uri link = Uri.parse("https://www.nhs.uk");
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, link);
+                        startActivity(browserIntent);
+                    }
+                }).create().show();
     }
 
     /**

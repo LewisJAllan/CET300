@@ -131,7 +131,13 @@ public class FaceGraphic extends GraphicOverlay.Graphic{
             float LHS = LHSC + LHSE + LHSM;
             float RHS = RHSC + RHSE + RHSM;
             float dif = LHS - RHS;
+            int count = 0;
             canvas.drawText("LHS to RHS asymmetry: " + String.format("%.2f", dif), x + ID_X_OFFSET * 5, y + ID_Y_OFFSET * 7, mIdPaint);
+            if(dif > 20){count++;}
+            if(count > 10){
+                MainActivity main = new MainActivity();
+                main.Detected(dif);
+            }
         }
 
         // Draws a bounding box around the face.
