@@ -59,21 +59,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void Detected(float f){
-        LayoutInflater li = LayoutInflater.from(MainActivity.this);
-        View getDeleteDialog = li.inflate(R.layout.dialog_detected, null);
-        //open delete dialog box
-        android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(MainActivity.this);
-        alertDialogBuilder.setView(getDeleteDialog);
-
-        alertDialogBuilder
-                .setNegativeButton(android.R.string.cancel, null)
-                .setPositiveButton("Delete", new DialogInterface.OnClickListener(){
-                    public void onClick(DialogInterface dialog, int id) {
-                        Uri link = Uri.parse("https://www.nhs.uk");
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, link);
-                        startActivity(browserIntent);
-                    }
-                }).create().show();
+        Toast.makeText(MainActivity.this, "Here",Toast.LENGTH_LONG).show();
+//        LayoutInflater li = LayoutInflater.from(MainActivity.this);
+//        View getDeleteDialog = li.inflate(R.layout.dialog_detected, null);
+//        //open delete dialog box
+//        android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(MainActivity.this);
+//        alertDialogBuilder.setView(getDeleteDialog);
+//
+//        alertDialogBuilder
+//                .setNegativeButton(android.R.string.cancel, null)
+//                .setPositiveButton("Detect", new DialogInterface.OnClickListener(){
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        Uri link = Uri.parse("https://www.nhs.uk");
+//                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, link);
+//                        startActivity(browserIntent);
+//                    }
+//                }).create().show();
     }
 
     /**
