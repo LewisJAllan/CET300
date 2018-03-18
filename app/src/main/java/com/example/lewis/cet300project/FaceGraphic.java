@@ -25,6 +25,7 @@ public class FaceGraphic extends GraphicOverlay.Graphic{
     float RHSC;
     float LHSM;
     float RHSM;
+    float dif;
 
     private static final int COLOR_CHOICES[] = {
             Color.BLUE,
@@ -73,9 +74,36 @@ public class FaceGraphic extends GraphicOverlay.Graphic{
      * Updates the face instance from the detection of the most recent frame.  Invalidates the
      * relevant portions of the overlay to trigger a redraw.
      */
-    void updateFace(Face face) {
+    float updateFace(Face face) {
         mFace = face;
+        for(Landmark landmark : mFace.getLandmarks()){
+            switch(landmark.getType()) {
+                case Landmark.LEFT_EYE:
+                    LHSE = landmark.getPosition().y;
+                    break;
+                case Landmark.RIGHT_EYE:
+                    RHSE = landmark.getPosition().y;
+                    break;
+                case Landmark.LEFT_CHEEK:
+                    LHSC = landmark.getPosition().y;
+                    break;
+                case Landmark.RIGHT_CHEEK:
+                    RHSC = landmark.getPosition().y;
+                    break;
+                case Landmark.LEFT_MOUTH:
+                    LHSM = landmark.getPosition().y;
+                    break;
+                case Landmark.RIGHT_MOUTH:
+                    RHSM = landmark.getPosition().y;
+                    break;
+            }
+            float LHS = LHSC + LHSE + LHSM;
+            float RHS = RHSC + RHSE + RHSM;
+            dif = LHS - RHS;
+            count++;
+            }
         postInvalidate();
+        return dif;
     }
 
     /**
@@ -103,35 +131,32 @@ public class FaceGraphic extends GraphicOverlay.Graphic{
                     // use landmark.getPosition() as the left eye position
                     canvas.drawText("Left: " +
                             String.format("%.2f", landmark.getPosition().y), x + ID_X_OFFSET * 2, y + ID_Y_OFFSET * 2, mIdPaint);
-                    LHSE = landmark.getPosition().y;
+                    //LHSE = landmark.getPosition().y;
                     break;
                 case Landmark.RIGHT_EYE:
                     canvas.drawText("Right: " +
                             String.format("%.2f", landmark.getPosition().y), x + ID_X_OFFSET *2, y - ID_Y_OFFSET * 2, mIdPaint);
-                    RHSE = landmark.getPosition().y;
+                    //RHSE = landmark.getPosition().y;
                     break;
-                case Landmark.LEFT_CHEEK:
-                    LHSC = landmark.getPosition().y;
-                    break;
-                case Landmark.RIGHT_CHEEK:
-                    RHSC = landmark.getPosition().y;
-                    break;
-                case Landmark.LEFT_MOUTH:
-                    LHSM = landmark.getPosition().y;
-                    break;
-                case Landmark.RIGHT_MOUTH:
-                    RHSM = landmark.getPosition().y;
-                    break;
+//                case Landmark.LEFT_CHEEK:
+//                    //LHSC = landmark.getPosition().y;
+//                    break;
+//                case Landmark.RIGHT_CHEEK:
+//                    RHSC = landmark.getPosition().y;
+//                    break;
+//                case Landmark.LEFT_MOUTH:
+//                    LHSM = landmark.getPosition().y;
+//                    break;
+//                case Landmark.RIGHT_MOUTH:
+//                    RHSM = landmark.getPosition().y;
+//                    break;
             }
-            float LHS = LHSC + LHSE + LHSM;
-            float RHS = RHSC + RHSE + RHSM;
-            float dif = LHS - RHS;
+//            float LHS = LHSC + LHSE + LHSM;
+//            float RHS = RHSC + RHSE + RHSM;
+//            float dif = LHS - RHS;
             count++;
-            //if(dif > 20 || dif < -20){count++;}
-            //if(count > 0){
-                MainActivity main = new MainActivity();
-                main.Detected(count);
-            //}
+//            MainActivity main = new MainActivity();
+//            main.Detected(count);
             canvas.drawText(String.valueOf(count) + " LHS to RHS asymmetry: " + String.format("%.2f", dif), x + ID_X_OFFSET * 5, y + ID_Y_OFFSET * 7, mIdPaint);
 
         }

@@ -67,8 +67,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void Detected(int count){
-        Log.d("Detected","Detected " + count);
+
         abc = count;
+//        Context context = getApplicationContext();
+//        Toast.makeText(context, "Here", Toast.LENGTH_SHORT).show();
 
         //if(count > 100) {
             //txtResult.setText("HELLO");
@@ -293,7 +295,13 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onUpdate(FaceDetector.Detections<Face> detectionResults, Face face) {
             mOverlay.add(mFaceGraphic);
-            mFaceGraphic.updateFace(face);
+            float dif = mFaceGraphic.updateFace(face);
+            Log.d("Detected","Detected");
+            //Toast.makeText(getApplicationContext(), "Here", Toast.LENGTH_SHORT).show();
+            txtResult.setText("HELLOOOOOOO");
+            if(dif > 40 || dif < -40){
+                Log.d("Detected","Detected " + dif);
+            }
         }
 
         /**
