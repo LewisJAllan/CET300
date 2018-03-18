@@ -3,14 +3,10 @@ package com.example.lewis.cet300project;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PointF;
-import android.widget.Toast;
 
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.Landmark;
 
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Lewis on 30/01/2018.
@@ -23,8 +19,6 @@ public class FaceGraphic extends GraphicOverlay.Graphic{
     private static final float ID_X_OFFSET = -50.0f;
     private static final float BOX_STROKE_WIDTH = 5.0f;
     int count = 0;
-//    List<Float> LHS;
-//    List<Float> RHS;
     float LHSE;
     float RHSE;
     float LHSC;

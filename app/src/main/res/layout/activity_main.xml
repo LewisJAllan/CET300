@@ -6,24 +6,42 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:keepScreenOn="true">
+    android:keepScreenOn="true"
+    android:weightSum="1">
 
     <TextView
-        android:id="@+id/txtResult"
+        android:id="@+id/txtTitle"
         android:layout_width="match_parent"
-        android:layout_height="67dp"
-        android:text="Ta Da!" />
+        android:layout_height="wrap_content"
+        android:layout_weight="0.03"
+        android:fontFamily="sans-serif-smallcaps"
+        android:text="Welcome to the CET300 Prototype"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <com.example.lewis.cet300project.CameraSourcePreview
         android:id="@+id/preview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="380dp"
+        android:layout_weight="0.55"
+        android:weightSum="1">
 
         <com.example.lewis.cet300project.GraphicOverlay
             android:id="@+id/faceOverlay"
-            android:layout_width="wrap_content"
-            android:layout_height="359dp" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     </com.example.lewis.cet300project.CameraSourcePreview>
+
+    <TextView
+        android:id="@+id/txtResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.03"
+        android:fontFamily="sans-serif-smallcaps"
+        android:text=""
+        android:textSize="18sp" />
 
 </LinearLayout>

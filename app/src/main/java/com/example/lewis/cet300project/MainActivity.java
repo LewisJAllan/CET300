@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -31,6 +32,7 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "FaceTracker";
+    TextView txtResult;
 
     private CameraSource mCameraSource = null;
     int count = 0;
@@ -45,6 +47,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        txtResult = (TextView) findViewById(R.id.txtResult);
+        txtResult.setText("HELLO");
+        Toast.makeText(this, "Hello", Toast.LENGTH_SHORT).show();
 
         mPreview = (CameraSourcePreview) findViewById(R.id.preview);
         mGraphicOverlay = (GraphicOverlay) findViewById(R.id.faceOverlay);
@@ -61,29 +67,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void Detected(int count){
         Log.d("Detected","Detected " + count);
-        onDestroy();
-        Toast.makeText(MainActivity.this, "Here", Toast.LENGTH_SHORT).show();
-        if(count > 100) {
-//            Uri link = Uri.parse("https://www.nhs.uk");
-//            Intent browserIntent = new Intent(Intent.ACTION_VIEW, link);
-//            startActivity(browserIntent);
-//            LayoutInflater li = LayoutInflater.from(mGraphicOverlay.getContext());
-//            View getDeleteDialog = li.inflate(R.layout.dialog_detected, null);
-//            //open delete dialog box
-//            android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(MainActivity.this);
-//            alertDialogBuilder.setView(getDeleteDialog);
-//
-//            alertDialogBuilder
-//                    .setNegativeButton(android.R.string.cancel, null)
-//                    .setPositiveButton("Detect", new DialogInterface.OnClickListener() {
-//                        public void onClick(DialogInterface dialog, int id) {
-//                            Uri link = Uri.parse("https://www.nhs.uk");
-//                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, link);
-//                            startActivity(browserIntent);
-//                            Log.d("Detected", "HERE FINALLY!");
-//                        }
-//                    }).create().show();
-        }
+        //if(count > 100) {
+            //txtResult.setText("HELLO");
+        //}
     }
 
     /**
