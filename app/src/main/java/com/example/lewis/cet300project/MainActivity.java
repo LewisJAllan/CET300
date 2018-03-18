@@ -61,26 +61,27 @@ public class MainActivity extends AppCompatActivity {
 
     public void Detected(int count){
         Log.d("Detected","Detected " + count);
+        Toast.makeText(MainActivity.this, "Here", Toast.LENGTH_SHORT).show();
         if(count > 100) {
-//            Uri link = Uri.parse("http://www.nhs.uk");
+//            Uri link = Uri.parse("https://www.nhs.uk");
 //            Intent browserIntent = new Intent(Intent.ACTION_VIEW, link);
 //            startActivity(browserIntent);
-            LayoutInflater li = LayoutInflater.from(MainActivity.this);
-            View getDeleteDialog = li.inflate(R.layout.dialog_detected, null);
-            //open delete dialog box
-            android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(MainActivity.this);
-            alertDialogBuilder.setView(getDeleteDialog);
-
-            alertDialogBuilder
-                    .setNegativeButton(android.R.string.cancel, null)
-                    .setPositiveButton("Detect", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
+//            LayoutInflater li = LayoutInflater.from(mGraphicOverlay.getContext());
+//            View getDeleteDialog = li.inflate(R.layout.dialog_detected, null);
+//            //open delete dialog box
+//            android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(MainActivity.this);
+//            alertDialogBuilder.setView(getDeleteDialog);
+//
+//            alertDialogBuilder
+//                    .setNegativeButton(android.R.string.cancel, null)
+//                    .setPositiveButton("Detect", new DialogInterface.OnClickListener() {
+//                        public void onClick(DialogInterface dialog, int id) {
 //                            Uri link = Uri.parse("https://www.nhs.uk");
 //                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, link);
 //                            startActivity(browserIntent);
-                            Log.d("Detected", "HERE FINALLY!");
-                        }
-                    }).create().show();
+//                            Log.d("Detected", "HERE FINALLY!");
+//                        }
+//                    }).create().show();
         }
     }
 
