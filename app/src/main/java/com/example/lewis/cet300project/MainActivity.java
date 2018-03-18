@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "FaceTracker";
 
     private CameraSource mCameraSource = null;
+    int count = 0;
 
     private CameraSourcePreview mPreview;
     private GraphicOverlay mGraphicOverlay;
@@ -58,23 +59,29 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void Detected(float f){
-        Toast.makeText(MainActivity.this, "Here",Toast.LENGTH_LONG).show();
-//        LayoutInflater li = LayoutInflater.from(MainActivity.this);
-//        View getDeleteDialog = li.inflate(R.layout.dialog_detected, null);
-//        //open delete dialog box
-//        android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(MainActivity.this);
-//        alertDialogBuilder.setView(getDeleteDialog);
-//
-//        alertDialogBuilder
-//                .setNegativeButton(android.R.string.cancel, null)
-//                .setPositiveButton("Detect", new DialogInterface.OnClickListener(){
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        Uri link = Uri.parse("https://www.nhs.uk");
-//                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, link);
-//                        startActivity(browserIntent);
-//                    }
-//                }).create().show();
+    public void Detected(int count){
+        Log.d("Detected","Detected " + count);
+        if(count > 100) {
+//            Uri link = Uri.parse("http://www.nhs.uk");
+//            Intent browserIntent = new Intent(Intent.ACTION_VIEW, link);
+//            startActivity(browserIntent);
+            LayoutInflater li = LayoutInflater.from(MainActivity.this);
+            View getDeleteDialog = li.inflate(R.layout.dialog_detected, null);
+            //open delete dialog box
+            android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(MainActivity.this);
+            alertDialogBuilder.setView(getDeleteDialog);
+
+            alertDialogBuilder
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .setPositiveButton("Detect", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+//                            Uri link = Uri.parse("https://www.nhs.uk");
+//                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, link);
+//                            startActivity(browserIntent);
+                            Log.d("Detected", "HERE FINALLY!");
+                        }
+                    }).create().show();
+        }
     }
 
     /**

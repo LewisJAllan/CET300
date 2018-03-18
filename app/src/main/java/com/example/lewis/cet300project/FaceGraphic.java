@@ -22,6 +22,7 @@ public class FaceGraphic extends GraphicOverlay.Graphic{
     private static final float ID_Y_OFFSET = 50.0f;
     private static final float ID_X_OFFSET = -50.0f;
     private static final float BOX_STROKE_WIDTH = 5.0f;
+    int count = 0;
 //    List<Float> LHS;
 //    List<Float> RHS;
     float LHSE;
@@ -93,8 +94,6 @@ public class FaceGraphic extends GraphicOverlay.Graphic{
             return;
         }
 
-        int count = 0;
-
         // Draws a circle at the position of the detected face, with the face's track id below.
         float x = translateX(face.getPosition().x + face.getWidth() / 2);
         float y = translateY(face.getPosition().y + face.getHeight() / 2);
@@ -133,10 +132,11 @@ public class FaceGraphic extends GraphicOverlay.Graphic{
             float LHS = LHSC + LHSE + LHSM;
             float RHS = RHSC + RHSE + RHSM;
             float dif = LHS - RHS;
+            count++;
             //if(dif > 20 || dif < -20){count++;}
             //if(count > 0){
                 MainActivity main = new MainActivity();
-                main.Detected(dif);
+                main.Detected(count);
             //}
             canvas.drawText(String.valueOf(count) + " LHS to RHS asymmetry: " + String.format("%.2f", dif), x + ID_X_OFFSET * 5, y + ID_Y_OFFSET * 7, mIdPaint);
 
