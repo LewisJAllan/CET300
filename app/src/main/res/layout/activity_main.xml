@@ -8,6 +8,12 @@
     android:layout_height="match_parent"
     android:keepScreenOn="true">
 
+    <TextView
+        android:id="@+id/txtResult"
+        android:layout_width="match_parent"
+        android:layout_height="67dp"
+        android:text="Ta Da!" />
+
     <com.example.lewis.cet300project.CameraSourcePreview
         android:id="@+id/preview"
         android:layout_width="match_parent"
@@ -15,8 +21,8 @@
 
         <com.example.lewis.cet300project.GraphicOverlay
             android:id="@+id/faceOverlay"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_width="wrap_content"
+            android:layout_height="359dp" />
 
     </com.example.lewis.cet300project.CameraSourcePreview>
 

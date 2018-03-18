@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void Detected(int count){
         Log.d("Detected","Detected " + count);
+        onDestroy();
         Toast.makeText(MainActivity.this, "Here", Toast.LENGTH_SHORT).show();
         if(count > 100) {
 //            Uri link = Uri.parse("https://www.nhs.uk");
