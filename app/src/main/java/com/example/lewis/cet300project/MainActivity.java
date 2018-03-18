@@ -32,10 +32,11 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "FaceTracker";
-    TextView txtResult;
+    private TextView txtResult;
 
     private CameraSource mCameraSource = null;
-    int count = 0;
+    int abc = 0;
+    boolean test = true;
 
     private CameraSourcePreview mPreview;
     private GraphicOverlay mGraphicOverlay;
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         txtResult = (TextView) findViewById(R.id.txtResult);
-        txtResult.setText("HELLO");
+        //txtResult.setText(String.valueOf(abc));
         Toast.makeText(this, "Hello", Toast.LENGTH_SHORT).show();
 
         mPreview = (CameraSourcePreview) findViewById(R.id.preview);
@@ -67,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void Detected(int count){
         Log.d("Detected","Detected " + count);
+        abc = count;
+
         //if(count > 100) {
             //txtResult.setText("HELLO");
         //}
