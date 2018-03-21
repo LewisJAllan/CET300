@@ -8,12 +8,14 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseArray;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
+import com.google.android.gms.vision.face.Landmark;
 
 import java.io.InputStream;
 
@@ -23,6 +25,14 @@ import java.io.InputStream;
 
 public class PhotoViewerActivity extends Activity {
     private static final String TAG = "PhotoViewerActivity";
+    TextView txtSymmetry;
+    float LHSE;
+    float RHSE;
+    float LHSC;
+    float RHSC;
+    float LHSM;
+    float RHSM;
+    float dif;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +41,8 @@ public class PhotoViewerActivity extends Activity {
 
         InputStream stream = getResources().openRawResource(R.raw.face);
         Bitmap bitmap = BitmapFactory.decodeStream(stream);
+
+        txtSymmetry = (TextView) findViewById(R.id.txtSymmetry);
 
         // A new face detector is created for detecting the face and its landmarks.
         //
@@ -80,6 +92,37 @@ public class PhotoViewerActivity extends Activity {
 
         FaceView overlay = (FaceView) findViewById(R.id.faceView);
         overlay.setContent(bitmap, faces);
+
+        for (int i = 0; i < faces.size(); ++i) {
+            Face face = faces.valueAt(i);
+            for (Landmark landmark : face.getLandmarks()) {
+                switch(landmark.getType()) {
+                    case Landmark.LEFT_EYE:
+                        LHSE = landmark.getPosition().y;
+                        break;
+                    case Landmark.RIGHT_EYE:
+                        RHSE = landmark.getPosition().y;
+                        break;
+                    case Landmark.LEFT_CHEEK:
+                        LHSC = landmark.getPosition().y;
+                        break;
+                    case Landmark.RIGHT_CHEEK:
+                        RHSC = landmark.getPosition().y;
+                        break;
+                    case Landmark.LEFT_MOUTH:
+                        LHSM = landmark.getPosition().y;
+                        break;
+                    case Landmark.RIGHT_MOUTH:
+                        RHSM = landmark.getPosition().y;
+                        break;
+                }
+                float LHS = LHSC + LHSE + LHSM;
+                float RHS = RHSC + RHSE + RHSM;
+                dif = LHS - RHS;
+
+                txtSymmetry.setText(String.valueOf(dif));
+            }
+        }
 
         // Although detector may be used multiple times for different images, it should be released
         // when it is no longer needed in order to free native resources.
