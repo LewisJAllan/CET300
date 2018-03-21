@@ -157,7 +157,7 @@ public class FaceGraphic extends GraphicOverlay.Graphic{
             count++;
 //            MainActivity main = new MainActivity();
 //            main.Detected(count);
-            canvas.drawText(String.valueOf(count) + " LHS to RHS asymmetry: " + String.format("%.2f", dif), x + ID_X_OFFSET * 5, y + ID_Y_OFFSET * 7, mIdPaint);
+           // canvas.drawText(String.valueOf(count) + " LHS to RHS asymmetry: " + String.format("%.2f", dif), x + ID_X_OFFSET * 5, y + ID_Y_OFFSET * 7, mIdPaint);
 
         }
 

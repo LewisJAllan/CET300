@@ -298,10 +298,25 @@ public class MainActivity extends AppCompatActivity {
             float dif = mFaceGraphic.updateFace(face);
             Log.d("Detected","Detected");
             //Toast.makeText(getApplicationContext(), "Here", Toast.LENGTH_SHORT).show();
-            txtResult.setText("HELLOOOOOOO");
-            if(dif > 40 || dif < -40){
+            txtResult.setText("The symmetry value is: " + String.valueOf(dif));
+            //if(dif > 40 || dif < -40){
                 Log.d("Detected","Detected " + dif);
-            }
+                //mCameraSource.release();
+
+                LayoutInflater li = LayoutInflater.from(mOverlay.getContext());
+                View getDetectDialog = li.inflate(R.layout.dialog_detected, null);
+                //open detect dialog box
+                android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(mOverlay.getContext());
+                alertDialogBuilder.setView(getDetectDialog);
+                Log.d("Detected","opened");
+                alertDialogBuilder
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .setPositiveButton("Help", new DialogInterface.OnClickListener(){
+                            public void onClick(DialogInterface dialog, int id) {
+
+                        }
+                        }).create().show();
+            //}
         }
 
         /**
