@@ -16,6 +16,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -303,19 +305,19 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("Detected","Detected " + dif);
                 //mCameraSource.release();
 
-                LayoutInflater li = LayoutInflater.from(mOverlay.getContext());
-                View getDetectDialog = li.inflate(R.layout.dialog_detected, null);
-                //open detect dialog box
-                android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(mOverlay.getContext());
-                alertDialogBuilder.setView(getDetectDialog);
-                Log.d("Detected","opened");
-                alertDialogBuilder
-                        .setNegativeButton(android.R.string.cancel, null)
-                        .setPositiveButton("Help", new DialogInterface.OnClickListener(){
-                            public void onClick(DialogInterface dialog, int id) {
-
-                        }
-                        }).create().show();
+//                LayoutInflater li = LayoutInflater.from(mOverlay.getContext());
+//                View getDetectDialog = li.inflate(R.layout.dialog_detected, null);
+//                //open detect dialog box
+//                android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(mOverlay.getContext());
+//                alertDialogBuilder.setView(getDetectDialog);
+//                Log.d("Detected","opened");
+//                alertDialogBuilder
+//                        .setNegativeButton(android.R.string.cancel, null)
+//                        .setPositiveButton("Help", new DialogInterface.OnClickListener(){
+//                            public void onClick(DialogInterface dialog, int id) {
+//
+//                        }
+//                        }).create().show();
             //}
         }
 
@@ -337,6 +339,25 @@ public class MainActivity extends AppCompatActivity {
         public void onDone() {
             mOverlay.remove(mFaceGraphic);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent myIntent;
+
+        switch (item.getItemId()){
+            case R.id.action_image:
+                myIntent = new Intent(this.getApplication().getApplicationContext(), PhotoViewerActivity.class);
+                startActivity(myIntent);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }
