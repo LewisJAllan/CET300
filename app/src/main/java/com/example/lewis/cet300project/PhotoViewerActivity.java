@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.util.SparseArray;
 import android.widget.TextView;
@@ -17,6 +19,7 @@ import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
 import com.google.android.gms.vision.face.Landmark;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -33,14 +36,24 @@ public class PhotoViewerActivity extends Activity {
     float LHSM;
     float RHSM;
     float dif;
+    private static final int PICK_IMAGE = 100;
+    Uri imageURI;
+    Bitmap bitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo_viewer);
 
-        InputStream stream = getResources().openRawResource(R.raw.face);
-        Bitmap bitmap = BitmapFactory.decodeStream(stream);
+        //InputStream stream = getResources().openRawResource(R.raw.face);
+        //CHECK PERMISSIONS< MANIFEST ETC.
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(intent, PICK_IMAGE);
+        try {
+            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageURI);
+        }catch(IOException e){
+            e.printStackTrace();
+        }
 
         txtSymmetry = (TextView) findViewById(R.id.txtSymmetry);
 
@@ -127,5 +140,14 @@ public class PhotoViewerActivity extends Activity {
         // Although detector may be used multiple times for different images, it should be released
         // when it is no longer needed in order to free native resources.
         safeDetector.release();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
+            imageURI = data.getData();
+        }
     }
 }
