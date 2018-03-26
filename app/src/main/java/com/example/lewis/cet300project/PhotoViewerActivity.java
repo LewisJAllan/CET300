@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.util.SparseArray;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,26 +39,25 @@ public class PhotoViewerActivity extends Activity {
     float RHSM;
     float dif;
     private static final int PICK_IMAGE = 100;
-    Uri imageURI;
-    Bitmap bitmap;
+    InputStream inputStream;
+    Bitmap bitmap1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo_viewer);
 
-        //InputStream stream = getResources().openRawResource(R.raw.face);
-        //CHECK PERMISSIONS< MANIFEST ETC.
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-        startActivityForResult(intent, PICK_IMAGE);
-        try {
-            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageURI);
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-
         txtSymmetry = (TextView) findViewById(R.id.txtSymmetry);
 
+        InputStream stream = getResources().openRawResource(R.raw.face);
+        Bitmap bitmap = BitmapFactory.decodeStream(stream);
+
+        process(bitmap);
+
+        getImage();
+    }
+
+    private void process(Bitmap bitmap){
         // A new face detector is created for detecting the face and its landmarks.
         //
         // Setting "tracking enabled" to false is recommended for detection with unrelated
@@ -142,12 +143,47 @@ public class PhotoViewerActivity extends Activity {
         safeDetector.release();
     }
 
+    private void getImage(){
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        startActivityForResult(intent, PICK_IMAGE);
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
-            imageURI = data.getData();
+            try {
+                inputStream = getContentResolver().openInputStream(data.getData());
+                bitmap1 = BitmapFactory.decodeStream(inputStream);
+                process(bitmap1);
+            }catch(IOException e){
+                e.printStackTrace();
+            }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent myIntent;
+
+        switch (item.getItemId()){
+            case R.id.action_image:
+                myIntent = new Intent(this.getApplication().getApplicationContext(), PhotoViewerActivity.class);
+                startActivity(myIntent);
+                return true;
+            case R.id.action_home:
+                myIntent = new Intent(this.getApplication().getApplicationContext(), MainActivity.class);
+                startActivity(myIntent);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

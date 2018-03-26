@@ -344,6 +344,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_menu, menu);
+        MenuItem home = menu.findItem(R.id.action_home);
+        home.setVisible(false);
         return true;
     }
 
