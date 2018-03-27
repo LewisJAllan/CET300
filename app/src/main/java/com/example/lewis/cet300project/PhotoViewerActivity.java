@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.Menu;
@@ -28,7 +29,7 @@ import java.io.InputStream;
  * Created by Lewis on 21/03/2018.
  */
 
-public class PhotoViewerActivity extends Activity {
+public class PhotoViewerActivity extends AppCompatActivity {
     private static final String TAG = "PhotoViewerActivity";
     TextView txtSymmetry;
     float LHSE;
