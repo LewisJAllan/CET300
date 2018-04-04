@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -135,7 +137,7 @@ public class PhotoViewerActivity extends AppCompatActivity {
                 float RHS = RHSC + RHSE + RHSM;
                 dif = LHS - RHS;
 
-                txtSymmetry.setText(String.valueOf(dif));
+                txtSymmetry.setText("The symmetry value is: " + String.valueOf(dif));
             }
         }
 
@@ -156,9 +158,33 @@ public class PhotoViewerActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
             try {
-                inputStream = getContentResolver().openInputStream(data.getData());
-                bitmap1 = BitmapFactory.decodeStream(inputStream);
-                process(bitmap1);
+                //inputStream = getContentResolver().openInputStream(data.getData());
+                //bitmap1 = BitmapFactory.decodeStream(inputStream);
+                //process(bitmap1);
+
+                //StackOverflow code found to rotate image potentially - Unsuccessful
+                BitmapFactory.Options bounds = new BitmapFactory.Options();
+                bounds.inJustDecodeBounds = true;
+                BitmapFactory.decodeStream(inputStream);
+                //BitmapFactory.decodeFile(data.getDataString(), bounds);
+
+                BitmapFactory.Options opts = new BitmapFactory.Options();
+                Bitmap bm = BitmapFactory.decodeFile(data.getDataString(), opts);
+                ExifInterface exif = new ExifInterface(data.getDataString());
+                String orientString = exif.getAttribute(ExifInterface.TAG_ORIENTATION);
+                int orientation = orientString != null ? Integer.parseInt(orientString) :  ExifInterface.ORIENTATION_NORMAL;
+
+                int rotationAngle = 0;
+                if (orientation == ExifInterface.ORIENTATION_ROTATE_90) rotationAngle = 90;
+                if (orientation == ExifInterface.ORIENTATION_ROTATE_180) rotationAngle = 180;
+                if (orientation == ExifInterface.ORIENTATION_ROTATE_270) rotationAngle = 270;
+
+                Matrix matrix = new Matrix();
+                matrix.setRotate(rotationAngle, (float) bm.getWidth() / 2, (float) bm.getHeight() / 2);
+                Bitmap rotatedBitmap = Bitmap.createBitmap(bm, 0, 0, bounds.outWidth, bounds.outHeight, matrix, true);
+
+                process(rotatedBitmap);
+
             }catch(IOException e){
                 e.printStackTrace();
             }

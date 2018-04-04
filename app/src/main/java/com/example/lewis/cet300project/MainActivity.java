@@ -8,14 +8,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -66,17 +63,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             requestCameraPermission();
         }
-    }
-
-    public void Detected(int count){
-
-        abc = count;
-//        Context context = getApplicationContext();
-//        Toast.makeText(context, "Here", Toast.LENGTH_SHORT).show();
-
-        //if(count > 100) {
-            //txtResult.setText("HELLO");
-        //}
     }
 
     /**
@@ -308,7 +294,8 @@ public class MainActivity extends AppCompatActivity {
 //                LayoutInflater li = LayoutInflater.from(mOverlay.getContext());
 //                View getDetectDialog = li.inflate(R.layout.dialog_detected, null);
 //                //open detect dialog box
-//                android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(mOverlay.getContext());
+//                android.support.v7.app.AlertDialog.Builder alertDialogBuilder =
+//                        new android.support.v7.app.AlertDialog.Builder(mOverlay.getContext());
 //                alertDialogBuilder.setView(getDetectDialog);
 //                Log.d("Detected","opened");
 //                alertDialogBuilder
