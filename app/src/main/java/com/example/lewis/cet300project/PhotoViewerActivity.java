@@ -1,11 +1,14 @@
 package com.example.lewis.cet300project;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.media.ExifInterface;
@@ -158,8 +161,6 @@ public class PhotoViewerActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
             try {
                 inputStream = getContentResolver().openInputStream(data.getData());
-
-                //StackOverflow code found to rotate image potentially - Unsuccessful
                 bm = BitmapFactory.decodeStream(inputStream);
 
                 ExifInterface exif = new ExifInterface(inputStream);
@@ -167,8 +168,7 @@ public class PhotoViewerActivity extends AppCompatActivity {
                 int orientation = exif.getAttributeInt(
                         ExifInterface.TAG_ORIENTATION,
                         ExifInterface.ORIENTATION_NORMAL);
-                String details = exif.getAttribute((ExifInterface.TAG_ARTIST));
-                Log.d("Orientation", String.valueOf(orientation) + " " + details);
+                Log.d("Orientation", String.valueOf(orientation));
                 switch (orientation) {
                     case ExifInterface.ORIENTATION_ROTATE_90:
                         rotationAngle = 90;
@@ -180,17 +180,36 @@ public class PhotoViewerActivity extends AppCompatActivity {
                         rotationAngle = 270;
                         break;
                 }
-                Matrix matrix = new Matrix();
-                matrix.setRotate(rotationAngle, (float) bm.getWidth() / 2, (float) bm.getHeight() / 2);
-                Bitmap rotatedBitmap = Bitmap.createBitmap(bm,0,0,bm.getWidth(),bm.getHeight(),matrix,true);
 
-                process(rotatedBitmap);
+//                Matrix matrix = new Matrix();
+//                matrix.setRotate(rotationAngle, (float) bm.getWidth() / 2, (float) bm.getHeight() / 2);
+//                Bitmap rotatedBitmap = Bitmap.createBitmap(bm,0,0,bm.getWidth(),bm.getHeight(),matrix,true);
+//
+//                bm = BitmapFactory.decodeStream(inputStream);
+                process(bm);
 
             }catch(IOException e){
                 e.printStackTrace();
             }
         }
     }
+
+//    private static int getOrientation(Context context, Uri photoUri) {
+//        Cursor cursor = context.getContentResolver().query(photoUri,
+//                new String[]{MediaStore.Images.ImageColumns.ORIENTATION}, null, null, null);
+//
+//        if (cursor.getCount() != 1) {
+//            cursor.close();
+//            return -1;
+//        }
+//
+//        cursor.moveToFirst();
+//        int orientation = cursor.getInt(0);
+//        cursor.close();
+//        cursor = null;
+//        Log.d("Orientation", String.valueOf(orientation));
+//        return orientation;
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
