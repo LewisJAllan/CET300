@@ -1,15 +1,14 @@
 package com.example.lewis.cet300project;
 
-import android.app.Activity;
+
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.media.ExifInterface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.media.ExifInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.SparseArray;
@@ -23,7 +22,6 @@ import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
 import com.google.android.gms.vision.face.Landmark;
-
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -43,7 +41,7 @@ public class PhotoViewerActivity extends AppCompatActivity {
     float dif;
     private static final int PICK_IMAGE = 100;
     InputStream inputStream;
-    Bitmap bitmap1;
+    Bitmap bm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,6 +147,7 @@ public class PhotoViewerActivity extends AppCompatActivity {
     private void getImage(){
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
+        //intent.putExtras (MediaStore.EXTRA_OUTPUT, );
         startActivityForResult(intent, PICK_IMAGE);
     }
 
@@ -158,30 +157,32 @@ public class PhotoViewerActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
             try {
-                //inputStream = getContentResolver().openInputStream(data.getData());
-                //bitmap1 = BitmapFactory.decodeStream(inputStream);
-                //process(bitmap1);
+                inputStream = getContentResolver().openInputStream(data.getData());
 
                 //StackOverflow code found to rotate image potentially - Unsuccessful
-                BitmapFactory.Options bounds = new BitmapFactory.Options();
-                bounds.inJustDecodeBounds = true;
-                BitmapFactory.decodeStream(inputStream);
-                //BitmapFactory.decodeFile(data.getDataString(), bounds);
+                bm = BitmapFactory.decodeStream(inputStream);
 
-                BitmapFactory.Options opts = new BitmapFactory.Options();
-                Bitmap bm = BitmapFactory.decodeFile(data.getDataString(), opts);
-                ExifInterface exif = new ExifInterface(data.getDataString());
-                String orientString = exif.getAttribute(ExifInterface.TAG_ORIENTATION);
-                int orientation = orientString != null ? Integer.parseInt(orientString) :  ExifInterface.ORIENTATION_NORMAL;
-
+                ExifInterface exif = new ExifInterface(inputStream);
                 int rotationAngle = 0;
-                if (orientation == ExifInterface.ORIENTATION_ROTATE_90) rotationAngle = 90;
-                if (orientation == ExifInterface.ORIENTATION_ROTATE_180) rotationAngle = 180;
-                if (orientation == ExifInterface.ORIENTATION_ROTATE_270) rotationAngle = 270;
-
+                int orientation = exif.getAttributeInt(
+                        ExifInterface.TAG_ORIENTATION,
+                        ExifInterface.ORIENTATION_NORMAL);
+                String details = exif.getAttribute((ExifInterface.TAG_ARTIST));
+                Log.d("Orientation", String.valueOf(orientation) + " " + details);
+                switch (orientation) {
+                    case ExifInterface.ORIENTATION_ROTATE_90:
+                        rotationAngle = 90;
+                        break;
+                    case ExifInterface.ORIENTATION_ROTATE_180:
+                        rotationAngle = 180;
+                        break;
+                    case ExifInterface.ORIENTATION_ROTATE_270:
+                        rotationAngle = 270;
+                        break;
+                }
                 Matrix matrix = new Matrix();
                 matrix.setRotate(rotationAngle, (float) bm.getWidth() / 2, (float) bm.getHeight() / 2);
-                Bitmap rotatedBitmap = Bitmap.createBitmap(bm, 0, 0, bounds.outWidth, bounds.outHeight, matrix, true);
+                Bitmap rotatedBitmap = Bitmap.createBitmap(bm,0,0,bm.getWidth(),bm.getHeight(),matrix,true);
 
                 process(rotatedBitmap);
 
