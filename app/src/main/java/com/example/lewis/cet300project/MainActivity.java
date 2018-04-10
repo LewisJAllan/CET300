@@ -34,8 +34,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView txtResult;
 
     private CameraSource mCameraSource = null;
-    int abc = 0;
-    boolean test = true;
 
     private CameraSourcePreview mPreview;
     private GraphicOverlay mGraphicOverlay;
@@ -49,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         txtResult = (TextView) findViewById(R.id.txtResult);
-        //txtResult.setText(String.valueOf(abc));
         Toast.makeText(this, "Hello", Toast.LENGTH_SHORT).show();
 
         mPreview = (CameraSourcePreview) findViewById(R.id.preview);
@@ -138,7 +135,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
         startCameraSource();
     }
 

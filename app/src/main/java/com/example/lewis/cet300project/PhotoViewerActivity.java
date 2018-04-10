@@ -1,6 +1,5 @@
 package com.example.lewis.cet300project;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -8,9 +7,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.media.ExifInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
